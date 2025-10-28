@@ -1,41 +1,11 @@
-@import "tailwindcss";
-
-@theme {
-	--font-heading: var(--font-heading), serif;
-	--font-body: var(--font-body), sans-serif;
-
-	--font-size-h1: 3rem;
-	--font-size-h2: 2rem;
-	--line-height-h1: 1.1;
-	--line-height-h2: 1.2;
-
-	--color-chestnut: #92432b;
-	--color-night: #121212;
-	--color-ecru: #c7a76c;
-	--color-walnut: #5a5246;
-	--color-platinum: #eaeaea;
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
 }
 
-@layer base {
-	h1 {
-		font-family: var(--font-heading);
-		font-size: var(--font-size-h1);
-		line-height: var(--line-height-h1);
-		font-weight: 700;
-	}
-
-	h2 {
-		font-family: var(--font-heading);
-		font-size: var(--font-size-h2);
-		line-height: var(--line-height-h2);
-		font-weight: 600;
-	}
-
-	body {
-		font-family: var(--font-body);
-		font-size: 1rem;
-		line-height: 1.5;
-		background-color: var(--color-night);
-		color: var(--color-ecru);
-	}
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
 }
