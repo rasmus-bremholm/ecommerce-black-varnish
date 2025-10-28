@@ -8,27 +8,34 @@
 	--font-size-h2: 2rem;
 	--line-height-h1: 1.1;
 	--line-height-h2: 1.2;
+
+	--color-chestnut: #92432b;
+	--color-night: #121212;
+	--color-ecru: #c7a76c;
+	--color-walnut: #5a5246;
+	--color-platinum: #eaeaea;
 }
 
-
 @layer base {
-  h1 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h1);
-    line-height: var(--line-height-h1);
-    font-weight: 700;
-  }
+	h1 {
+		font-family: var(--font-heading);
+		font-size: var(--font-size-h1);
+		line-height: var(--line-height-h1);
+		font-weight: 700;
+	}
 
-  h2 {
-    font-family: var(--font-heading);
-    font-size: var(--font-size-h2);
-    line-height: var(--line-height-h2);
-    font-weight: 600;
-  }
+	h2 {
+		font-family: var(--font-heading);
+		font-size: var(--font-size-h2);
+		line-height: var(--line-height-h2);
+		font-weight: 600;
+	}
 
-  body {
-    font-family: var(--font-body);
-    font-size: 1rem;
-    line-height: 1.5;
-  }
+	body {
+		font-family: var(--font-body);
+		font-size: 1rem;
+		line-height: 1.5;
+		background-color: var(--color-night);
+		color: var(--color-ecru);
+	}
 }
