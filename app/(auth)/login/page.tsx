@@ -7,35 +7,29 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/contexts/ToastContext";
 
-export default function Register() {
+export default function Login() {
 	const supabase = createClient();
 	const router = useRouter();
 	const { showToast } = useToast();
 	const [formData, setFormData] = useState({
-		firstName: "",
-		lastName: "",
 		email: "",
 		password: "",
-		confirmPassword: "",
 	});
 
 	const [errors, setErrors] = useState({
 		email: "",
 		password: "",
-		confirmPassword: "",
 	});
 
 	const [touched, setTouched] = useState({
 		email: false,
 		password: false,
-		confirmPassword: false,
 	});
 	const [loading, setLoading] = useState(false);
 	const [submitError, setSubmitError] = useState("");
-	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
 	useEffect(() => {
-		const newErrors = { email: "", password: "", confirmPassword: "" };
+		const newErrors = { email: "", password: "" };
 
 		// Email Validation
 		if (touched.email && formData.email) {
@@ -50,20 +44,11 @@ export default function Register() {
 			}
 		}
 
-		// Confirm password - check on every keystroke once touched
-		if (formData.confirmPassword) {
-			if (formData.password !== formData.confirmPassword) {
-				newErrors.confirmPassword = "Passwords don't match";
-			}
-		}
 		setErrors(newErrors);
 	}, [formData, touched]);
 
 	const handleInputChange = (field: string, value: string) => {
 		setFormData({ ...formData, [field]: value });
-		if (field === "password" && value.length > 0) {
-			setShowConfirmPassword(true);
-		}
 	};
 
 	const handleBlur = (field: string) => {
@@ -77,11 +62,10 @@ export default function Register() {
 		setTouched({
 			email: true,
 			password: true,
-			confirmPassword: true,
 		});
 
 		// validation check
-		if (errors.email || errors.password || errors.confirmPassword) {
+		if (errors.email || errors.password) {
 			setSubmitError("Please fix the errors above");
 			return;
 		}
@@ -90,15 +74,9 @@ export default function Register() {
 		setSubmitError("");
 
 		try {
-			const { data, error } = await supabase.auth.signUp({
+			const { data, error } = await supabase.auth.signInWithPassword({
 				email: formData.email,
 				password: formData.password,
-				options: {
-					data: {
-						first_name: formData.firstName,
-						last_name: formData.lastName,
-					},
-				},
 			});
 
 			if (error) {
@@ -106,8 +84,8 @@ export default function Register() {
 				showToast(error.message, "error");
 			} else {
 				// Success!
-				showToast("Account created successfully! Redirecting...", "success");
-				// Small delay to let user see the success message
+				showToast("Successfully logged in! Redirecting...", "success");
+
 				setTimeout(() => {
 					router.push("/");
 				}, 1000);
@@ -131,27 +109,7 @@ export default function Register() {
 				display='flex'
 				flexDirection='column'
 				sx={{ gap: 2, maxWidth: 400, margin: "0 auto", p: 3 }}>
-				<Typography variant='h4'>Create New Account</Typography>
-
-				<FormControl>
-					<InputLabel htmlFor='input_first_name'>First Name</InputLabel>
-					<Input
-						autoComplete='given-name'
-						id='input_first_name'
-						value={formData.firstName}
-						onChange={(e) => handleInputChange("firstName", e.target.value)}
-					/>
-				</FormControl>
-
-				<FormControl>
-					<InputLabel htmlFor='input_last_name'>Last Name</InputLabel>
-					<Input
-						autoComplete='family-name'
-						id='input_last_name'
-						value={formData.lastName}
-						onChange={(e) => handleInputChange("lastName", e.target.value)}
-					/>
-				</FormControl>
+				<Typography variant='h4'>Login</Typography>
 
 				<FormControl error={Boolean(errors.email && touched.email)}>
 					<InputLabel htmlFor='input_email'>Email</InputLabel>
@@ -173,36 +131,21 @@ export default function Register() {
 						onBlur={() => handleBlur("password")}
 						type='password'
 						id='input_password'
-						autoComplete='new-password'
+						autoComplete='current-password'
 						value={formData.password}
 						onChange={(e) => handleInputChange("password", e.target.value)}
 					/>
 					{errors.password && touched.password && <FormHelperText error>{errors.password}</FormHelperText>}
 				</FormControl>
 
-				{showConfirmPassword && formData.password.length > 0 && (
-					<FormControl error={Boolean(errors.confirmPassword)}>
-						<InputLabel htmlFor='input_confirm_password'>Confirm Password</InputLabel>
-						<Input
-							required
-							type='password'
-							onBlur={() => handleBlur("confirmPassword")}
-							id='input_confirm_password'
-							value={formData.confirmPassword}
-							autoComplete='new-password'
-							onChange={(e) => handleInputChange("confirmPassword", e.target.value)}
-						/>
-						{errors.confirmPassword && <FormHelperText error>{errors.confirmPassword}</FormHelperText>}
-					</FormControl>
-				)}
 				{submitError && <Typography color='error'>{submitError}</Typography>}
 
 				<Stack gap={2} alignItems='center' mt={2}>
 					<Button sx={{ width: "100%" }} type='submit' variant='contained' disabled={loading}>
-						{loading ? "Creating Account..." : "Sign Up"}
+						{loading ? "Logging In..." : "Login"}
 					</Button>
-					<Link href={"/login"}>
-						<Typography>Already got an account? Sign in here</Typography>
+					<Link href={"/register"}>
+						<Typography>New here? Register Here</Typography>
 					</Link>
 				</Stack>
 			</Box>
