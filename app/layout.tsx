@@ -3,6 +3,7 @@ import ThemeRegistry from "./ThemeRegistry";
 import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import { ToastProvider } from "@/contexts/ToastContext";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -17,12 +18,14 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body>
-				<ThemeRegistry>
-					<ToastProvider>
-						<Navbar />
-						{children}
-					</ToastProvider>
-				</ThemeRegistry>
+				<AuthProvider>
+					<ThemeRegistry>
+						<ToastProvider>
+							<Navbar />
+							{children}
+						</ToastProvider>
+					</ThemeRegistry>
+				</AuthProvider>
 			</body>
 		</html>
 	);
