@@ -2,7 +2,8 @@
   "permissions": {
     "allow": [
       "Bash(npm install)",
-      "mcp__next-devtools__nextjs_runtime"
+      "mcp__next-devtools__nextjs_runtime",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

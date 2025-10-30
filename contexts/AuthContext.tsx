@@ -2,7 +2,6 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
 import { createClient } from "@/lib/supabase/client";
 import { User } from "@supabase/supabase-js";
-import { log } from "console";
 
 interface AuthContextType {
 	user: User | null;
@@ -17,17 +16,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 	const [isLoading, setIsLoading] = useState(true);
 
 	useEffect(() => {
-		// Get logged in user.
+		// Get logged in user
 		const getUser = async () => {
 			setIsLoading(true);
 			const {
 				data: { user },
 			} = await supabase.auth.getUser();
+			setUser(user);
 			setIsLoading(false);
 		};
 		getUser();
 
-		//Listen for auth changes
+		// Listen for auth changes
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, session) => {
@@ -35,19 +35,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 			setIsLoading(false);
 		});
 
-		// cleanup subscreiption
+		// Cleanup subscription
 		return () => {
 			subscription.unsubscribe();
 		};
 	}, []);
-	console.log("Current User: ", user);
-	return <AuthContext value={{ user, isLoading }}>{children}</AuthContext>;
+
+	return <AuthContext.Provider value={{ user, isLoading }}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
 	const context = useContext(AuthContext);
 	if (context === undefined) {
-		throw new Error("useAuth must be used withing AuthProvider");
+		throw new Error("useAuth must be used within AuthProvider");
 	}
 	return context;
 }
