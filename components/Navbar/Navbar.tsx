@@ -21,9 +21,18 @@ export default function Navbar() {
 				<Typography component={Link} href='/'>
 					Home
 				</Typography>
-				<Typography component={Link} href='/products'>
-					Products
+				<Typography component={Link} href='/products/paints'>
+					Paints
 				</Typography>
+				<Typography component={Link} href='/products/washes'>
+					Washes
+				</Typography>
+				<Typography component={Link} href='/products/tools'>
+					Tools
+				</Typography>
+
+				<Divider orientation='vertical' />
+
 				<Typography component={Link} href='/new'>
 					New Arrivals
 				</Typography>
@@ -34,10 +43,10 @@ export default function Navbar() {
 
 			<Divider orientation='vertical' />
 
-			{isLoading ? (
+			{isLoading ?
 				// Loading state
 				<Skeleton variant='circular' width={24} height={24} />
-			) : user ? (
+			: user ?
 				// User IS logged in
 				<Box component={Link} href='/profile' display='flex' alignItems='center' sx={{ gap: 1 }}>
 					<Typography>My Account</Typography>
@@ -45,15 +54,14 @@ export default function Navbar() {
 						{initials}
 					</Avatar>
 				</Box>
-			) : (
 				// User is NOT logged in
-				<Box component={Link} href='/login' display='flex' alignItems='center'>
+			:	<Box component={Link} href='/login' display='flex' alignItems='center'>
 					<Typography>Login</Typography>
 					<IconButton size='small'>
 						<Login />
 					</IconButton>
 				</Box>
-			)}
+			}
 		</Box>
 	);
 }
