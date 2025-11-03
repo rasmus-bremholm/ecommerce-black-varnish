@@ -4,6 +4,7 @@ import "./globals.css";
 import Navbar from "@/components/Navbar/Navbar";
 import { ToastProvider } from "@/contexts/ToastContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 
 export const metadata: Metadata = {
 	title: "Create Next App",
@@ -18,14 +19,16 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body>
-				<AuthProvider>
-					<ThemeRegistry>
-						<ToastProvider>
-							<Navbar />
-							{children}
-						</ToastProvider>
-					</ThemeRegistry>
-				</AuthProvider>
+				<AppRouterCacheProvider>
+					<AuthProvider>
+						<ThemeRegistry>
+							<ToastProvider>
+								<Navbar />
+								{children}
+							</ToastProvider>
+						</ThemeRegistry>
+					</AuthProvider>
+				</AppRouterCacheProvider>
 			</body>
 		</html>
 	);
